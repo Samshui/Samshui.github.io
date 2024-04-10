@@ -28,10 +28,11 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - name: 配置Yarn
+        run: yarn install --frozen-lockfile
       - name: 安装依赖
         if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
-
+        run: yarn config set ignore-engines true
       - name: 构建
         run: yarn build
       - name: 发布到Github Pages
